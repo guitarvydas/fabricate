@@ -1,0 +1,36 @@
+Fab {
+top [ws1 name ws2 lb ws3 rule+ ws4 rb more*] = ‛
+{
+«rule»«more»
+    _terminal: function () { return this.sourceString; },
+    _iter: function (...children) { return children.map(c => c._fmt ()); },
+    spaces: function (x) { return this.sourceString; },
+    space: function (x) { return this.sourceString; }
+}
+’
+
+more [name ws1 lb ws2 rule* ws3 rb ws4] = ‛
+«rule»
+’
+
+rule [lhs ws1 keq ws2 rws] = ‛«lhs»«rws»
+_ruleExit ("«getRuleName ()»");
+},
+’
+
+RuleLHS [name lb Params+ rb] = ‛«name»: function («extractFormals(Params)») {\n_ruleEnter ("«name»");«setRuleName (name)»«Params»
+’
+
+rewriteString [sb cs* se] = ‛return \`«cs»\`;’
+stringBegin [c] = ‛’
+stringEnd [c] = ‛’
+char_eval [lb name rb] = ‛\««name»\»’
+char_raw [c] = ‛«c»’
+name [c cs*] = ‛«c»«cs»’
+nameRest [c] = ‛«c»’
+Param_plus [name k] = ‛\nvar «name» = _«name»._glue ().join ('');’
+Param_star [name k] = ‛\nvar «name» = _«name»._glue ().join ('');’
+Param_opt [name k] = ‛\nvar «name» = _«name»._glue ().join ('');’
+Param_flat [name] = ‛\nvar «name» = _«name»._glue ();’
+
+}

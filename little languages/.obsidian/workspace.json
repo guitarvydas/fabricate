@@ -1,0 +1,162 @@
+{
+  "main": {
+    "id": "b4d6ca6ada0192e3",
+    "type": "split",
+    "children": [
+      {
+        "id": "703e61ff204fbde7",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "615a00dd09b27144",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "1-2needed.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "c53fa8494aec1d18",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Simple Grammar Test.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "531778ba7077949f",
+    "type": "split",
+    "children": [
+      {
+        "id": "3a9a3029d58461e4",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "aa03610c57088700",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "839dd2bde811fb95",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "35cade6f6b5fab49",
+            "type": "leaf",
+            "state": {
+              "type": "starred",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "04499cdb4b93dbf3",
+    "type": "split",
+    "children": [
+      {
+        "id": "4fa48ad26b47e703",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "55c0e102f2c2521b",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Simple Grammar Test.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "a36b5b0d21a8874a",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Simple Grammar Test.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "3a63509e2edb0968",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "9d46acf0d1178f3c",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Simple Grammar Test.md"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "active": "c53fa8494aec1d18",
+  "lastOpenFiles": [
+    "1-2needed.md",
+    "1roughin.md",
+    "1-3normalization.md",
+    "Overview.md",
+    "extensions.md",
+    "fabricator.md",
+    "grammar.md"
+  ]
+}
