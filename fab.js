@@ -33,8 +33,8 @@ function _ruleExit (ruleName) {
     }
 }
 
-function getFmtGrammar () {
-    return fmtGrammar;
+function getFabGrammar () {
+    return fabGrammar;
 }
 
   // helper functions
@@ -44,15 +44,15 @@ function getFmtGrammar () {
 
 /// end helpers
 
-function vcompilefmt (v) {
-    // v is { tracing: boolean, traceDepth: int, src: String, grammarName: undefined, grammars: undefined, fmt : undefined, ohm: function, compilefmt: undefined}
+function vcompilefab (v) {
+    // v is { tracing: boolean, traceDepth: int, src: String, grammarName: undefined, grammars: undefined, fab : undefined, ohm: function, compilefab: undefined}
     tracing = v.tracing;
     traceDepth = v.traceDepth;
-    return compilefmt (v.src, v.ohm);
+    return compilefab (v.src, v.ohm);
 }
 
-function compilefmt (fmtsrc, ohmlang) {
-    // expand the string fmtsrc into JavaScript suitable for
+function compilefab (fabsrc, ohmlang) {
+    // expand the string fabsrc into JavaScript suitable for
     // inclusion as a semantic object for Ohm.js
     //
     var s = '';
@@ -60,24 +60,24 @@ function compilefmt (fmtsrc, ohmlang) {
     var generatedObject = {};
     
 
-    // Step 1a. Create (internal) fmt transpiler. 
-    var internalgrammar = ohmlang.grammar (fmtGrammar);
-    var fmtcst = internalgrammar.match (fmtsrc);
+    // Step 1a. Create (internal) fab transpiler. 
+    var internalgrammar = ohmlang.grammar (fabGrammar);
+    var fabcst = internalgrammar.match (fabsrc);
 
-    if (fmtcst.failed ()) {
-        // return [false, "FORMAT: syntax error\n(Use Ohm-Editor to debug format specification (grammar: fmt.ohm))\n\n" + internalgrammar.trace (fmtsrc)];
+    if (fabcst.failed ()) {
+        // return [false, "FABRICATOR: syntax error\n(Use Ohm-Editor to debug fabricator specification (grammar: fab.ohm))\n\n" + internalgrammar.trace (fabsrc)];
 	console.error (internalgrammar);
-        return [false, "FORMAT: syntax error\n(Use Ohm-Editor to debug format specification) rightmostPosition=" + fmtcst.getRightmostFailurePosition() + '\n' + fmtsrc];
+        return [false, "FABRICATOR: syntax error\n(Use Ohm-Editor to debug fabricator specification) rightmostPosition=" + fabcst.getRightmostFailurePosition() + '\n' + fabsrc];
     }
-    // Step 1b. Transpile User's FMT spec to a JS object (for use with Ohm-JS)
+    // Step 1b. Transpile User's FAB spec to a JS object (for use with Ohm-JS)
     try {
         var sem = internalgrammar.createSemantics ();
-        sem.addOperation ('_fmt', semObject);
-        var generatedFmtWalker = sem (fmtcst);
-        var generated = generatedFmtWalker._fmt ();
+        sem.addOperation ('_fab', semObject);
+        var generatedFabWalker = sem (fabcst);
+        var generated = generatedFabWalker._fab ();
         return [true, generated];
     } catch (err) {
-        var msg = "error generating code from FMT specification<br><br>" + err.message;
+        var msg = "error generating code from FAB specification<br><br>" + err.message;
         return [false, msg];
     }
 }
@@ -86,9 +86,9 @@ function compilefmt (fmtsrc, ohmlang) {
 var tracing = false;
 var traceDepth = 0;
 
-const fmtGrammar =
+const fabGrammar =
       String.raw`
-FMT {
+FAB {
 top = spaces name spaces "{" spaces rule+ spaces "}" spaces more*
 more = name spaces "{" spaces rule* spaces "}" spaces
 rule = applySyntactic<RuleLHS> spaces "=" spaces rewriteString
@@ -128,7 +128,7 @@ var varNameStack = [];
 // top [ws1 name ws2 lb ws4 @rule ws5 rb ws3 @more] = [[{
 // ${rule}
     // _terminal: function () { return this.sourceString; },
-    // _iter: function (...children) { return children.map(c => c._fmt ()); },
+    // _iter: function (...children) { return children.map(c => c._fab ()); },
     // spaces: function (x) { return this.sourceString; },
     // space: function (x) { return this.sourceString; }
 // }
@@ -139,20 +139,20 @@ const semObject = {
     top : function (_ws1,_name,_ws2,_lb,_ws4,_rule,_ws5,_rb,_ws3,_more) { 
         _ruleEnter ("top");
 
-        var ws1 = _ws1._fmt ();
-        var name = _name._fmt ();
-        var ws2 = _ws2._fmt ();
-        var lb = _lb._fmt ();
-        var ws4 = _ws4._fmt ();
-        var rule = _rule._fmt ().join ('');
-        var ws5 = _ws5._fmt ();
-        var rb = _rb._fmt ();
-        var ws3 = _ws3._fmt ();
-        var more = _more._fmt ().join ('');
+        var ws1 = _ws1._fab ();
+        var name = _name._fab ();
+        var ws2 = _ws2._fab ();
+        var lb = _lb._fab ();
+        var ws4 = _ws4._fab ();
+        var rule = _rule._fab ().join ('');
+        var ws5 = _ws5._fab ();
+        var rb = _rb._fab ();
+        var ws3 = _ws3._fab ();
+        var more = _more._fab ().join ('');
         var _result = `{
 ${rule}${more}
     _terminal: function () { return this.sourceString; },
-    _iter: function (...children) { return children.map(c => c._fmt ()); },
+    _iter: function (...children) { return children.map(c => c._fab ()); },
     spaces: function (x) { return this.sourceString; },
     space: function (x) { return this.sourceString; }
 }
@@ -164,14 +164,14 @@ ${rule}${more}
     more : function (_name,_ws2,_lb,_ws4,_rule,_ws5,_rb,_ws3) { 
         _ruleEnter ("top");
 
-        var name = _name._fmt ();
-        var ws2 = _ws2._fmt ();
-        var lb = _lb._fmt ();
-        var ws4 = _ws4._fmt ();
-        var rule = _rule._fmt ().join ('');
-        var ws5 = _ws5._fmt ();
-        var rb = _rb._fmt ();
-        var ws3 = _ws3._fmt ();
+        var name = _name._fab ();
+        var ws2 = _ws2._fab ();
+        var lb = _lb._fab ();
+        var ws4 = _ws4._fab ();
+        var rule = _rule._fab ().join ('');
+        var ws5 = _ws5._fab ();
+        var rb = _rb._fab ();
+        var ws3 = _ws3._fab ();
         var _result = `
 ${rule}
 `; 
@@ -191,11 +191,11 @@ ${rule}
     rule : function (_lhs,_ws1,_keq,_ws2,_rws) { 
         _ruleEnter ("rule");
 
-        var lhs = _lhs._fmt ();
-        var ws1 = _ws1._fmt ();
-        var keq = _keq._fmt ();
-        var ws2 = _ws2._fmt ();
-        var rws = _rws._fmt ();
+        var lhs = _lhs._fab ();
+        var ws1 = _ws1._fab ();
+        var keq = _keq._fab ();
+        var ws2 = _ws2._fab ();
+        var rws = _rws._fab ();
         var _result = `${lhs}
 _ruleExit ("${getRuleName ()}");
 return ${rws}
@@ -211,10 +211,10 @@ return ${rws}
     RuleLHS : function (_name,_lb,_Params,_rb) { 
         _ruleEnter ("RuleLHS");
 
-        var name = _name._fmt ();
-        var lb = _lb._fmt ();
-        var Params = _Params._fmt ().join ('');
-        var rb = _rb._fmt ();
+        var name = _name._fab ();
+        var lb = _lb._fab ();
+        var Params = _Params._fab ().join ('');
+        var rb = _rb._fab ();
         var _result = `${name}: function (${extractFormals(Params)}) {\n_ruleEnter ("${name}");${setRuleName (name)}${Params}
 `; 
         _ruleExit ("RuleLHS");
@@ -228,10 +228,10 @@ return ${rws}
     rewriteString : function (_sb,_cs,_se,_ws) { 
         _ruleEnter ("rewriteString");
 
-        var sb = _sb._fmt ();
-        var cs = _cs._fmt ().join ('');
-        var se = _se._fmt ();
-        var ws = _ws._fmt ();
+        var sb = _sb._fab ();
+        var cs = _cs._fab ().join ('');
+        var se = _se._fab ();
+        var ws = _ws._fab ();
         var _result = `\`${cs}\`;`; 
         _ruleExit ("rewriteString");
         return _result; 
@@ -244,9 +244,9 @@ return ${rws}
     char_eval : function (_lb,_cs,_rb) { 
         _ruleEnter ("char_eval");
 
-        var lb = _lb._fmt ();
-        var name = _cs._fmt ().join ('');
-        var rb = _rb._fmt ();
+        var lb = _lb._fab ();
+        var name = _cs._fab ().join ('');
+        var rb = _rb._fab ();
         var _result = `\$\{${name}\}`; 
         _ruleExit ("char_eval");
         return _result; 
@@ -255,7 +255,7 @@ return ${rws}
     char_raw : function (_c) { 
         _ruleEnter ("char_raw");
 
-        var c = _c._fmt ();
+        var c = _c._fab ();
         var _result = `${c}`; 
         _ruleExit ("char_raw");
         return _result; 
@@ -268,8 +268,8 @@ return ${rws}
     name : function (_c,_cs) { 
         _ruleEnter ("name");
 
-        var c = _c._fmt ();
-        var cs = _cs._fmt ().join ('');
+        var c = _c._fab ();
+        var cs = _cs._fab ().join ('');
         var _result = `${c}${cs}`; 
         _ruleExit ("name");
         return _result; 
@@ -278,7 +278,7 @@ return ${rws}
     nameRest : function (_c) { 
         _ruleEnter ("nameRest");
 
-        var c = _c._fmt ();
+        var c = _c._fab ();
         var _result = `${c}`; 
         _ruleExit ("nameRest");
         return _result; 
@@ -287,18 +287,18 @@ return ${rws}
     ////
 
 
-    // Param_plus [name k] = [[\nvar ${name} = _${name}._fmt ().join ('');]]
-    // Param_star [name k] = [[\nvar ${name} = _${name}._fmt ().join ('');]]
-    // Param_opt [name k] = [[\nvar ${name} = _${name}._fmt ().join ('');]]
-    // Param_flat [name] = [[\nvar ${name} = _${name}._fmt ();]]
+    // Param_plus [name k] = [[\nvar ${name} = _${name}._fab ().join ('');]]
+    // Param_star [name k] = [[\nvar ${name} = _${name}._fab ().join ('');]]
+    // Param_opt [name k] = [[\nvar ${name} = _${name}._fab ().join ('');]]
+    // Param_flat [name] = [[\nvar ${name} = _${name}._fab ();]]
 
 
     Param_plus : function (_name,_k) { 
         _ruleEnter ("Param_plus");
 
-        var name = _name._fmt ();
-        var k = _k._fmt ();
-        var _result = `\nvar ${name} = _${name}._fmt ().join ('');`; 
+        var name = _name._fab ();
+        var k = _k._fab ();
+        var _result = `\nvar ${name} = _${name}._fab ().join ('');`; 
         _ruleExit ("Param_plus");
         return _result; 
     },
@@ -306,9 +306,9 @@ return ${rws}
     Param_star : function (_name,_k) { 
         _ruleEnter ("Param_star");
 
-        var name = _name._fmt ();
-        var k = _k._fmt ();
-        var _result = `\nvar ${name} = _${name}._fmt ().join ('');`; 
+        var name = _name._fab ();
+        var k = _k._fab ();
+        var _result = `\nvar ${name} = _${name}._fab ().join ('');`; 
         _ruleExit ("Param_star");
         return _result; 
     },
@@ -316,9 +316,9 @@ return ${rws}
     Param_opt : function (_name,_k) { 
         _ruleEnter ("Param_opt");
 
-        var name = _name._fmt ();
-        var k = _k._fmt ();
-        var _result = `\nvar ${name} = _${name}._fmt ().join ('');`; 
+        var name = _name._fab ();
+        var k = _k._fab ();
+        var _result = `\nvar ${name} = _${name}._fab ().join ('');`; 
         _ruleExit ("Param_opt");
         return _result; 
     },
@@ -326,8 +326,8 @@ return ${rws}
     Param_flat : function (_name) { 
         _ruleEnter ("Param_flat");
 
-        var name = _name._fmt ();
-        var _result = `\nvar ${name} = _${name}._fmt ();`; 
+        var name = _name._fab ();
+        var _result = `\nvar ${name} = _${name}._fab ();`; 
         _ruleExit ("Param_flat");
         return _result; 
     },
@@ -335,7 +335,7 @@ return ${rws}
     ////
 
     _terminal: function () { return this.sourceString; },
-    _iter: function (...children) { return children.map(c => c._fmt ()); },
+    _iter: function (...children) { return children.map(c => c._fab ()); },
     spaces: function (x) { return this.sourceString; },
     space: function (x) { return this.sourceString; }
 };

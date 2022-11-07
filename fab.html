@@ -10,7 +10,7 @@ textarea {
 
 <h1>Fabricator - Code Generator</h1>
 
-<button onclick="generate ()">Generate JavaScript from FMT specification</button>
+<button onclick="generate ()">Generate JavaScript from FAB specification</button>
 <br>
 <button onclick="usesmalltest ()">Use small test.</button>
 <button onclick="usesmalltest2 ()">Use small test 2.</button>
@@ -126,7 +126,7 @@ NonemptyListOf [x xs+ cs+] = ‛⟨x⟩⟨xs⟩⟨cs⟩’
   function generate () {
       var src = document.getElementById('src').value;
       try {
-          let [success, transpiled] = compilefmt (src, ohm);
+          let [success, transpiled] = compilefab (src, ohm);
           document.getElementById('output').value = transpiled;
           if (success) {
               document.getElementById('status').innerHTML = "OK";
