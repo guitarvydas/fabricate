@@ -25,7 +25,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Simple Grammar Test.md",
+                "file": "1-3normalization.md",
                 "mode": "source",
                 "source": false
               }
@@ -98,7 +98,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Simple Grammar Test.md",
+                "file": "1-3normalization.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -115,7 +115,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Simple Grammar Test.md",
+                "file": "1-3normalization.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -138,7 +138,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Simple Grammar Test.md"
+                "file": "1-3normalization.md"
               }
             }
           }
@@ -151,6 +151,7 @@
   },
   "active": "c53fa8494aec1d18",
   "lastOpenFiles": [
+    "Simple Grammar Test.md",
     "1-2needed.md",
     "1roughin.md",
     "1-3normalization.md",
