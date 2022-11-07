@@ -7,7 +7,7 @@ rewriteString = "‛" char* "’" spaces
 char =
   | "«" nonBracketChar* "»" -- eval
   | ~"’" ~"]]" any     -- raw
-nonBracketChar = ~"»" ~"«"  ~"’" ~"]]" any
+nonBracketChar = ~"»" ~"«"  ~"’" any
 name = letter nameRest*
 nameRest = "_" | alnum
 Param =
