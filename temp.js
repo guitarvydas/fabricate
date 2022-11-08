@@ -1,94 +1,6 @@
-/// helpers
-function _ruleInit () {
-}
 
-function traceSpaces () {
-    var s = '';
-    var n = traceDepth;
-    while (n > 0) {
-        s += ' ';
-        n -= 1;
-    }
-    s += `[${traceDepth.toString ()}]`;
-    return s;
-}
-
-function _ruleEnter (ruleName) {
-    if (tracing) {
-        traceDepth += 1;
-        var s = traceSpaces ();
-        s += 'enter: ';
-        s += ruleName.toString ();
-        console.log (s);
-    }
-}
-
-function _ruleExit (ruleName) {
-    if (tracing) {
-        var s = traceSpaces ();
-        traceDepth -= 1;
-        s += 'exit: ';
-        s += ruleName.toString ();
-        console.log (s);
-    }
-}
-
-function getFabGrammar () {
-    return fabGrammar;
-}
-
-  // helper functions
-  var ruleName = "???";
-  function setRuleName (s) { ruleName = s; return "";}
-  function getRuleName () { return ruleName; }
-
-/// end helpers
-
-function vcompilefab (v) {
-    // v is { tracing: boolean, traceDepth: int, src: String, grammarName: undefined, grammars: undefined, fab : undefined, ohm: function, compilefab: undefined}
-    tracing = v.tracing;
-    traceDepth = v.traceDepth;
-    return compilefab (v.src, v.ohm);
-}
-
-function compilefab (fabsrc, ohmlang) {
-    // expand the string fabsrc into JavaScript suitable for
-    // inclusion as a semantic object for Ohm.js
-    //
-    var s = '';
-
-    var generatedObject = {};
-    
-
-    // Step 1a. Create (internal) fab transpiler. 
-    var internalgrammar = ohmlang.grammar (fabGrammar);
-    var fabcst = internalgrammar.match (fabsrc);
-
-    if (fabcst.failed ()) {
-        // return [false, "FABRICATOR: syntax error\n(Use Ohm-Editor to debug fabricator specification (grammar: fab.ohm))\n\n" + internalgrammar.trace (fabsrc)];
-	console.error (internalgrammar);
-        return [false, "FABRICATOR: syntax error\n(Use Ohm-Editor to debug fabricator specification) rightmostPosition=" + fabcst.getRightmostFailurePosition() + '\n' + fabsrc];
-    }
-    // Step 1b. Transpile User's FAB spec to a JS object (for use with Ohm-JS)
-    try {
-        var sem = internalgrammar.createSemantics ();
-        sem.addOperation ('_fmt', semObject);
-        var generatedFabWalker = sem (fabcst);
-        var generated = generatedFabWalker._fmt ();
-        return [true, generated];
-    } catch (err) {
-        var msg = "error generating code from FAB specification<br><br>" + err.message;
-        return [false, msg];
-    }
-}
-
-
-var tracing = false;
-var traceDepth = 0;
-
-const fabGrammar =
-      String.raw`
-FAB {
+const fmtGrammar = String.raw`
+FMT {
 top = spaces name spaces "{" spaces rule+ spaces "}" spaces more*
 more = name spaces "{" spaces rule* spaces "}" spaces
 rule = applySyntactic<RuleLHS> spaces "=" spaces rewriteString
@@ -96,8 +8,10 @@ RuleLHS = name "[" Param+ "]"
 rewriteString = "‛" char* "’" spaces
 char =
   | "«" nonBracketChar* "»" -- eval
+  | "\\‛" -- beginquote
+  | "\\’" -- endquote
   | ~"’" ~"]]" any     -- raw
-nonBracketChar = ~"»" ~"«"  ~"’" ~"]]" any
+nonBracketChar = ~"»" ~"«"  ~"’" any
 name = letter nameRest*
 nameRest = "_" | alnum
 Param =
@@ -109,19 +23,6 @@ comment = "//" (~"\n" any)* "\n"
 space += comment
 }
 `;
-
-function extractFormals (s) {
-    var s0 = s
-        .replace (/\n/g,',')
-        .replace (/var [A-Za-z0-9_]+ = /g,'')
-        .replace (/\._[^;]+;/g,'')
-        .replace (/,/,'')
-    ;
-    return s0;
-}
-
-var varNameStack = [];
-
 const semObject = 
 {
 top: function (_ws1,_name,_ws2,_lb,_ws3,_rule,_ws4,_rb,_ws5,_more) {
@@ -173,8 +74,9 @@ var ws2 = _ws2._fmt ();
 var rws = _rws._fmt ();
 
 _ruleExit ("rule");
-return `${lhs}${rws}
+return `${lhs}
 _ruleExit ("${getRuleName ()}");
+return ${rws};
 },
 `;
 },
@@ -197,16 +99,30 @@ var se = _se._fmt ();
 var ws = _ws._fmt ();
 
 _ruleExit ("rewriteString");
-return `return \`${cs}\`;`;
+return `\‛${cs}\’`;
 },
-char_eval: function (_lb,_nonBracketChar,_rb) {
+char_eval: function (_lb,_name,_rb) {
 _ruleEnter ("char_eval");
 var lb = _lb._fmt ();
-var nonBracketChar = _nonBracketChar._fmt ().join ('');
+var name = _name._fmt ().join ('');
 var rb = _rb._fmt ();
 
 _ruleExit ("char_eval");
-return `\«${nonBracketChar}\»`;
+return `\$\{${name}\}`;
+},
+char_beginquote: function (_c) {
+_ruleEnter ("char_beginquote");
+var c = _c._fmt ();
+
+_ruleExit ("char_beginquote");
+return `${c}`;
+},
+char_endquote: function (_c) {
+_ruleEnter ("char_endquote");
+var c = _c._fmt ();
+
+_ruleExit ("char_endquote");
+return `${c}`;
 },
 char_raw: function (_c) {
 _ruleEnter ("char_raw");

@@ -13,15 +13,16 @@ more [name ws1 lb ws2 rule* ws3 rb ws4] = ‛
 «rule»
 ’
 
-rule [lhs ws1 keq ws2 rws] = ‛«lhs»«rws»
+rule [lhs ws1 keq ws2 rws] = ‛«lhs»
 _ruleExit ("«getRuleName ()»");
+return «rws»;
 },
 ’
 
 RuleLHS [name lb Params+ rb] = ‛«name»: function («extractFormals(Params)») {\n_ruleEnter ("«name»");«setRuleName (name)»«Params»
 ’
 
-rewriteString [sb cs* se ws] = ‛\‛${cs}\’;’
+rewriteString [sb cs* se ws] = ‛`${cs}\`’
 char_eval [lb name* rb] = ‛\$\{«name»\}’
 char_beginquote [c] = ‛«c»’
 char_endquote [c] = ‛«c»’
