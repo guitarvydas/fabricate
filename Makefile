@@ -9,6 +9,11 @@ diff:
 	 ~/node_modules/js-beautify/js/bin/js-beautify.js gen.js >gen.b
 	diff -wBb fab-js.b gen.b
 
+diff0:
+	 ~/node_modules/js-beautify/js/bin/js-beautify.js gen.js >gen.b
+	 ~/node_modules/js-beautify/js/bin/js-beautify.js gen2.js >gen2.b
+	diff -wBb gen.b gen2.b
+
 fab.js: gen.js fab.ohm
 	echo >temp.js
 	echo 'const fmtGrammar = String.raw`' >>temp.js

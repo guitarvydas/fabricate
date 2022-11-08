@@ -171,14 +171,6 @@ ${rule}
     },
 
 
-    ////
-    
-    // rule [lhs ws1 keq ws2 rws] = [[${lhs}${rws}
-    // _ruleExit ("${getRuleName ()}");
-    // },
-    // ]]
-
-
     rule: function (_lhs,_ws1,_keq,_ws2,_rws) { 
         _ruleEnter ("rule");
 
@@ -195,10 +187,6 @@ return ${rws}
         _ruleExit ("rule");
         return _result; 
     },
-    ////
-    
-    // RuleLHS [name lb @Params rb] = [[${name}: function (${extractFormals(Params)}) {\n_ruleEnter ("${name}");${setRuleName (name)}${Params}
-    // ]]
     RuleLHS: function (_name,_lb,_Params,_rb) { 
         _ruleEnter ("RuleLHS");
 
@@ -212,10 +200,6 @@ return ${rws}
         return _result; 
     },
     
-    ////
-
-
-    // rewriteString [sb @cs se ws] = [[return \`${cs}\`;]]
     rewriteString: function (_sb,_cs,_se,_ws) { 
         _ruleEnter ("rewriteString");
 
@@ -229,9 +213,6 @@ return ${rws}
     },
 
 
-    ////
-    // char_eval [lb name rb] = [[\$\{${name}\}]]
-    // char_raw [c] = [[${c}]]
     char_eval: function (_lb,_cs,_rb) { 
         _ruleEnter ("char_eval");
 
@@ -267,11 +248,6 @@ return ${rws}
         _ruleExit ("char_raw");
         return _result; 
     },
-    ////
-    
-    // name [c @cs] = [[${c}${cs}]]
-    // nameRest [c] = [[${c}]]
-
     name: function (_c,_cs) { 
         _ruleEnter ("name");
 
@@ -290,15 +266,6 @@ return ${rws}
         _ruleExit ("nameRest");
         return _result; 
     },
-
-    ////
-
-
-    // Param_plus [name k] = [[\nvar ${name} = _${name}._fmt ().join ('');]]
-    // Param_star [name k] = [[\nvar ${name} = _${name}._fmt ().join ('');]]
-    // Param_opt [name k] = [[\nvar ${name} = _${name}._fmt ().join ('');]]
-    // Param_flat [name] = [[\nvar ${name} = _${name}._fmt ();]]
-
 
     Param_plus: function (_name,_k) { 
         _ruleEnter ("Param_plus");
@@ -339,8 +306,6 @@ return ${rws}
         return _result; 
     },
     
-    ////
-
     _terminal: function () { return this.sourceString; },
     _iter: function (...children) { return children.map(c => c._fmt ()); },
     spaces: function (x) { return this.sourceString; },
