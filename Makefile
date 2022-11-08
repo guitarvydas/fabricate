@@ -12,4 +12,4 @@ fab.js: gen.js fab.ohm
 	echo 'const fmtGrammar = String.raw`' >>temp.js
 	cat fab.ohm >>temp.js
 	echo '`;' >>temp.js
-	cat fab-boilerplate.js >fab.js
+	cat fab-boilerplate.js temp.js >fab.js

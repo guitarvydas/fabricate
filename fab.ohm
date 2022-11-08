@@ -9,7 +9,7 @@ char =
   | "\\‛" -- beginquote
   | "\\’" -- endquote
   | ~"’" ~"]]" any     -- raw
-nonBracketChar = ~"»" ~"«"  ~"’" any
+nonBracketChar = ~"»" ~"«"  ~"’" ~"]]" any
 name = letter nameRest*
 nameRest = "_" | alnum
 Param =
@@ -20,3 +20,4 @@ Param =
 comment = "//" (~"\n" any)* "\n"
 space += comment
 }
+
