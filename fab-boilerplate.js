@@ -33,8 +33,8 @@ function _ruleExit (ruleName) {
     }
 }
 
-function getFmtGrammar () {
-    return fmtGrammar;
+function getFabGrammar () {
+    return fabGrammar;
 }
 
   // helper functions
@@ -61,7 +61,7 @@ function compilefmt (fmtsrc, ohmlang) {
     
 
     // Step 1a. Create (internal) fmt transpiler. 
-    var internalgrammar = ohmlang.grammar (fmtGrammar);
+    var internalgrammar = ohmlang.grammar (fabGrammar);
     var fmtcst = internalgrammar.match (fmtsrc);
 
     if (fmtcst.failed ()) {

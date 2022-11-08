@@ -127,7 +127,7 @@ space += comment
 const semObject =
 {
 
-    top: function (_ws1,_name,_ws2,_lb,_ws4,_rule,_ws5,_rb,_ws3,_more) { 
+z    top: function (_ws1,_name,_ws2,_lb,_ws4,_rule,_ws5,_rb,_ws3,_more) { 
         _ruleEnter ("top");
 
         var ws1 = _ws1._fmt ();
