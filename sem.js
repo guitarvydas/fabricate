@@ -1,30 +1,3 @@
-
-const fabGrammar = String.raw`
-FMT {
-top = spaces name spaces "{" spaces rule+ spaces "}" spaces more*
-more = name spaces "{" spaces rule* spaces "}" spaces
-rule = applySyntactic<RuleLHS> spaces "=" spaces rewriteString
-RuleLHS = name "[" Param+ "]"
-rewriteString = "‛" char* "’" spaces
-char =
-  | "«" nonBracketChar* "»" -- eval
-  | "\\‛" -- beginquote
-  | "\\’" -- endquote
-  | ~"’" ~"]]" any     -- raw
-nonBracketChar = ~"»" ~"«"  ~"’" ~"]]" any
-name = letter nameRest*
-nameRest = "_" | alnum
-Param =
-  | name "+" -- plus
-  | name "*" -- star
-  | name "?" -- opt
-  | name     -- flat
-comment = "//" (~"\n" any)* "\n"
-space += comment
-}
-
-`;
-const semObject =
 {
 top: function (_ws1,_name,_ws2,_lb,_ws4,_rule,_ws5,_rb,_ws3,_more) {
 _ruleEnter ("top");
@@ -191,4 +164,3 @@ return `\nvar ${name} = _${name}._fmt ();`;
     spaces: function (x) { return this.sourceString; },
     space: function (x) { return this.sourceString; }
 }
-;
