@@ -1,30 +1,3 @@
-
-const fmtGrammar = String.raw`
-FMT {
-top = spaces name spaces "{" spaces rule+ spaces "}" spaces more*
-more = name spaces "{" spaces rule* spaces "}" spaces
-rule = applySyntactic<RuleLHS> spaces "=" spaces rewriteString
-RuleLHS = name "[" Param+ "]"
-rewriteString = "‛" char* "’" spaces
-char =
-  | "«" nonBracketChar* "»" -- eval
-  | "\\‛" -- beginquote
-  | "\\’" -- endquote
-  | ~"’" ~"]]" any     -- raw
-nonBracketChar = ~"»" ~"«"  ~"’" ~"]]" any
-name = letter nameRest*
-nameRest = "_" | alnum
-Param =
-  | name "+" -- plus
-  | name "*" -- star
-  | name "?" -- opt
-  | name     -- flat
-comment = "//" (~"\n" any)* "\n"
-space += comment
-}
-
-`;
-const semObject =
 // xxx
 
 //// top = spaces name spaces "{" spaces rule+ spaces "}" spaces more*
@@ -260,4 +233,3 @@ return ${rws}
 }
 // yyy
 
-;
