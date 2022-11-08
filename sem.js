@@ -49,9 +49,8 @@ var rws = _rws._fmt ();
 
 _ruleExit ("rule");
 return `${lhs}
-var _result = ${rws}
 _ruleExit ("${getRuleName ()}");
-return _result;
+return ${rws};
 },
 `;
 },
@@ -74,7 +73,7 @@ var se = _se._fmt ();
 var ws = _ws._fmt ();
 
 _ruleExit ("rewriteString");
-return `var _result= \`${cs}\``;
+return `\`${cs}\``;
 },
 char_eval: function (_lb,_name,_rb) {
 _ruleEnter ("char_eval");
