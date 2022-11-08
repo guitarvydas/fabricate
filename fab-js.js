@@ -1,18 +1,6 @@
-// xxx
-
-//// top = spaces name spaces "{" spaces rule+ spaces "}" spaces more*
-// top [ws1 name ws2 lb ws4 @rule ws5 rb ws3 @more] = [[{
-// ${rule}
-    // _terminal: function () { return this.sourceString; },
-    // _iter: function (...children) { return children.map(c => c._fmt ()); },
-    // spaces: function (x) { return this.sourceString; },
-    // space: function (x) { return this.sourceString; }
-// }
-// ]]
-
 {
 
-    top : function (_ws1,_name,_ws2,_lb,_ws4,_rule,_ws5,_rb,_ws3,_more) { 
+    top: function (_ws1,_name,_ws2,_lb,_ws4,_rule,_ws5,_rb,_ws3,_more) { 
         _ruleEnter ("top");
 
         var ws1 = _ws1._fmt ();
@@ -37,7 +25,7 @@ ${rule}${more}
         return _result; 
     },
 
-    more : function (_name,_ws2,_lb,_ws4,_rule,_ws5,_rb,_ws3) { 
+    more: function (_name,_ws2,_lb,_ws4,_rule,_ws5,_rb,_ws3) { 
         _ruleEnter ("top");
 
         var name = _name._fmt ();
@@ -56,15 +44,7 @@ ${rule}
     },
 
 
-    ////
-    
-    // rule [lhs ws1 keq ws2 rws] = [[${lhs}${rws}
-    // _ruleExit ("${getRuleName ()}");
-    // },
-    // ]]
-
-
-    rule : function (_lhs,_ws1,_keq,_ws2,_rws) { 
+    rule: function (_lhs,_ws1,_keq,_ws2,_rws) { 
         _ruleEnter ("rule");
 
         var lhs = _lhs._fmt ();
@@ -80,11 +60,7 @@ return ${rws}
         _ruleExit ("rule");
         return _result; 
     },
-    ////
-    
-    // RuleLHS [name lb @Params rb] = [[${name}: function (${extractFormals(Params)}) {\n_ruleEnter ("${name}");${setRuleName (name)}${Params}
-    // ]]
-    RuleLHS : function (_name,_lb,_Params,_rb) { 
+    RuleLHS: function (_name,_lb,_Params,_rb) { 
         _ruleEnter ("RuleLHS");
 
         var name = _name._fmt ();
@@ -97,11 +73,7 @@ return ${rws}
         return _result; 
     },
     
-    ////
-
-
-    // rewriteString [sb @cs se ws] = [[return \`${cs}\`;]]
-    rewriteString : function (_sb,_cs,_se,_ws) { 
+    rewriteString: function (_sb,_cs,_se,_ws) { 
         _ruleEnter ("rewriteString");
 
         var sb = _sb._fmt ();
@@ -114,10 +86,7 @@ return ${rws}
     },
 
 
-    ////
-    // char_eval [lb name rb] = [[\$\{${name}\}]]
-    // char_raw [c] = [[${c}]]
-    char_eval : function (_lb,_cs,_rb) { 
+    char_eval: function (_lb,_cs,_rb) { 
         _ruleEnter ("char_eval");
 
         var lb = _lb._fmt ();
@@ -128,7 +97,7 @@ return ${rws}
         return _result; 
     },
     
-    char_beginquote : function (_c) { 
+    char_beginquote: function (_c) { 
         _ruleEnter ("char_beginquote");
 
         var c = _c._fmt ();
@@ -136,7 +105,7 @@ return ${rws}
         _ruleExit ("char_beginquote");
         return _result; 
     },
-    char_endquote : function (_c) { 
+    char_endquote: function (_c) { 
         _ruleEnter ("char_endquote");
 
         var c = _c._fmt ();
@@ -144,7 +113,7 @@ return ${rws}
         _ruleExit ("char_quote");
         return _result; 
     },
-    char_raw : function (_c) { 
+    char_raw: function (_c) { 
         _ruleEnter ("char_raw");
 
         var c = _c._fmt ();
@@ -152,12 +121,7 @@ return ${rws}
         _ruleExit ("char_raw");
         return _result; 
     },
-    ////
-    
-    // name [c @cs] = [[${c}${cs}]]
-    // nameRest [c] = [[${c}]]
-
-    name : function (_c,_cs) { 
+    name: function (_c,_cs) { 
         _ruleEnter ("name");
 
         var c = _c._fmt ();
@@ -167,7 +131,7 @@ return ${rws}
         return _result; 
     },
     
-    nameRest : function (_c) { 
+    nameRest: function (_c) { 
         _ruleEnter ("nameRest");
 
         var c = _c._fmt ();
@@ -176,16 +140,7 @@ return ${rws}
         return _result; 
     },
 
-    ////
-
-
-    // Param_plus [name k] = [[\nvar ${name} = _${name}._fmt ().join ('');]]
-    // Param_star [name k] = [[\nvar ${name} = _${name}._fmt ().join ('');]]
-    // Param_opt [name k] = [[\nvar ${name} = _${name}._fmt ().join ('');]]
-    // Param_flat [name] = [[\nvar ${name} = _${name}._fmt ();]]
-
-
-    Param_plus : function (_name,_k) { 
+    Param_plus: function (_name,_k) { 
         _ruleEnter ("Param_plus");
 
         var name = _name._fmt ();
@@ -195,7 +150,7 @@ return ${rws}
         return _result; 
     },
     
-    Param_star : function (_name,_k) { 
+    Param_star: function (_name,_k) { 
         _ruleEnter ("Param_star");
 
         var name = _name._fmt ();
@@ -205,7 +160,7 @@ return ${rws}
         return _result; 
     },
     
-    Param_opt : function (_name,_k) { 
+    Param_opt: function (_name,_k) { 
         _ruleEnter ("Param_opt");
 
         var name = _name._fmt ();
@@ -215,7 +170,7 @@ return ${rws}
         return _result; 
     },
     
-    Param_flat : function (_name) { 
+    Param_flat: function (_name) { 
         _ruleEnter ("Param_flat");
 
         var name = _name._fmt ();
@@ -224,12 +179,9 @@ return ${rws}
         return _result; 
     },
     
-    ////
-
     _terminal: function () { return this.sourceString; },
     _iter: function (...children) { return children.map(c => c._fmt ()); },
     spaces: function (x) { return this.sourceString; },
     space: function (x) { return this.sourceString; }
 }
-// yyy
 

@@ -1,15 +1,15 @@
 {
-top: function (_ws1,_name,_ws2,_lb,_ws3,_rule,_ws4,_rb,_ws5,_more) {
+top: function (_ws1,_name,_ws2,_lb,_ws4,_rule,_ws5,_rb,_ws3,_more) {
 _ruleEnter ("top");
 var ws1 = _ws1._fmt ();
 var name = _name._fmt ();
 var ws2 = _ws2._fmt ();
 var lb = _lb._fmt ();
-var ws3 = _ws3._fmt ();
-var rule = _rule._fmt ().join ('');
 var ws4 = _ws4._fmt ();
-var rb = _rb._fmt ();
+var rule = _rule._fmt ().join ('');
 var ws5 = _ws5._fmt ();
+var rb = _rb._fmt ();
+var ws3 = _ws3._fmt ();
 var more = _more._fmt ().join ('');
 
 _ruleExit ("top");
@@ -49,8 +49,9 @@ var rws = _rws._fmt ();
 
 _ruleExit ("rule");
 return `${lhs}
+var _result = ${rws}
 _ruleExit ("${getRuleName ()}");
-return ${rws};
+return _result;
 },
 `;
 },
@@ -73,7 +74,7 @@ var se = _se._fmt ();
 var ws = _ws._fmt ();
 
 _ruleExit ("rewriteString");
-return ``${cs}\``;
+return `var _result= `${cs}\``;
 },
 char_eval: function (_lb,_name,_rb) {
 _ruleEnter ("char_eval");

@@ -5,7 +5,9 @@ dev:
 all: diff
 
 diff:
-	diff -w gen.js gen2.js
+	 ~/node_modules/js-beautify/js/bin/js-beautify.js fab-js.js >fab-js.b
+	 ~/node_modules/js-beautify/js/bin/js-beautify.js gen.js >gen.b
+	diff -wBb fab-js.b gen.b
 
 fab.js: gen.js fab.ohm
 	echo >temp.js

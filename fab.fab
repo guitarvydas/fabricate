@@ -1,5 +1,5 @@
 Fab {
-top [ws1 name ws2 lb ws3 rule+ ws4 rb ws5 more*] = ‛
+top [ws1 name ws2 lb ws4 rule+ ws5 rb ws3 more*] = ‛
 {
 «rule»«more»
     _terminal: function () { return this.sourceString; },
@@ -14,15 +14,16 @@ more [name ws1 lb ws2 rule* ws3 rb ws4] = ‛
 ’
 
 rule [lhs ws1 keq ws2 rws] = ‛«lhs»
+var _result = «rws»
 _ruleExit ("«getRuleName ()»");
-return «rws»;
+return _result;
 },
 ’
 
 RuleLHS [name lb Params+ rb] = ‛«name»: function («extractFormals(Params)») {\n_ruleEnter ("«name»");«setRuleName (name)»«Params»
 ’
 
-rewriteString [sb cs* se ws] = ‛`${cs}\`’
+rewriteString [sb cs* se ws] = ‛var _result= `${cs}\`’
 char_eval [lb name* rb] = ‛\$\{«name»\}’
 char_beginquote [c] = ‛«c»’
 char_endquote [c] = ‛«c»’
