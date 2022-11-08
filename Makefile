@@ -1,6 +1,7 @@
 dev:
 	rm -f fab.js
 	(make fab.js)
+	(make diff0)
 
 all: diff
 
