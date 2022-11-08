@@ -10,7 +10,7 @@ char =
   | "«" nonBracketChar* "»" -- eval
   | "\\‛" -- beginquote
   | "\\’" -- endquote
-  | ~"’" ~"]]" any     -- raw
+  | ~"\\‛" ~"’" any     -- raw
 nonBracketChar = ~"»" ~"«"  ~"’" ~"]]" any
 name = letter nameRest*
 nameRest = "_" | alnum
